@@ -1,0 +1,31 @@
+{
+  "name": "redux-localstorage-saver",
+  "version": "1.0.0",
+  "description": "Redux middleware for automatical save actions to localStorage with restore by action",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --presets=stage-0,es2015 --out-dir dist",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivcogit/redux-localstorage-saver.git"
+  },
+  "keywords": [
+    "redux",
+    "localStorage",
+    "actions"
+  ],
+  "author": "Vivcogit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vivcogit/redux-localstorage-saver/issues"
+  },
+  "homepage": "https://github.com/vivcogit/redux-localstorage-saver#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0"
+  }
+}
