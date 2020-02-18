@@ -1,15 +1,17 @@
 const LOAD_LOCALSTORAGE = Symbol('LOAD_LOCALSTORAGE');
 
-export const restore = () => ({ type: LOAD_LOCALSTORAGE });
+export function restore() {
+  return ({ type: LOAD_LOCALSTORAGE });
+}
 
 const DEFAULT_CONFIG = {
   items: [],
   prefix: 'rls_',
   serialize: JSON.stringify,
-  deserialize: JSON.parse
+  deserialize: JSON.parse,
 };
 
-const saver = (_config) => {
+function saver(_config) {
   let config = DEFAULT_CONFIG;
   if (Array.isArray(_config)) {
     config.items = _config;
@@ -19,31 +21,49 @@ const saver = (_config) => {
     throw 'You need to use saver(config), where config is array or object';
   }
 
-  return store => 
-    next => 
-      action => {
+  saver.getItem = (item) => {
+    try {
+      const payload = localStorage.getItem(`${config.prefix}${item}`);
+      return config.deserialize(payload);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  saver.loadAll = (dispatch) => {
+    config.items.forEach((item) => {
+      const payload = saver.getItem(`${config.prefix}${item}`);
+  
+      if (payload !== null) {
+        dispatch({ type: item, payload });
+      }
+    });
+  }
+  
+  saver.save = (action) => {
+    try {
+      localStorage.setItem(
+        `${config.prefix}${action.type}`,
+        config.serialize(action.payload),
+      );
+    } catch (error) {
+      return;
+    }
+  }
+
+  return () => 
+    (next) => 
+      (action) => {
         if (action.type === LOAD_LOCALSTORAGE) {
-          loadAll(config, next);
+          saver.loadAll(next);
         } else { 
           if (config.items.includes(action.type)) {
-            save(config, action)
+            saver.save(action)
           }
+
           next(action);
         }
       }
-}
-
-const loadAll = (config, dispatch) => {
-  config.items.forEach((item) => {
-    const payload = localStorage.getItem(`${config.prefix}${item}`);
-    if (payload) {
-      dispatch({type: item, payload: config.deserialize(payload)});
-    }
-  });
-}
-
-const save = (config, action) => {
-  localStorage.setItem(`${config.prefix}${action.type}`, config.serialize(action.payload));
 }
 
 export default saver;
