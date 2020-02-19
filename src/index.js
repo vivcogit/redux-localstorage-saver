@@ -32,7 +32,7 @@ function saver(_config) {
 
   saver.loadAll = (dispatch) => {
     config.items.forEach((item) => {
-      const payload = saver.getItem(`${config.prefix}${item}`);
+      const payload = saver.getItem(item);
   
       if (payload !== null) {
         dispatch({ type: item, payload });
