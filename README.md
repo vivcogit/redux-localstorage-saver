@@ -1,4 +1,12 @@
 # redux-localstorage-saver
+<p align="center">
+    <a href="https://david-dm.org/vivcogit/redux-localstorage-saver">
+        <img alt="David" src="https://img.shields.io/david/vivcogit/redux-localstorage-saver.svg?style=flat-square" />
+    </a>
+    <a href="https://www.npmjs.com/package/redux-localstorage-saver">
+        <img alt="npm" src="https://img.shields.io/npm/v/redux-localstorage-saver.svg?style=flat-square" />
+    </a>
+</p>
 
 Redux middleware for automatical save actions to localStorage with restore by action
 
